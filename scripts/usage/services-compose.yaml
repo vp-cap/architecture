@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  task-allocator-service:
+    container_name: task-allocator-service
+    image: task-allocator-service:latest
+    ports:
+      - 127.0.0.1:50052:50052
+  handler-service:
+    container_name: handler-service
+    image: handler-service:latest
+    depends_on:
+      - "task-allocator-service"
+    ports:
+      - 127.0.0.1:50054:50054
+  video-service:
+    container_name: video-service
+    image: video-service:latest
+    ports:
+      - 127.0.0.1:50053:50053
+  upload-service:
+    container_name: upload-service
+    image: upload-service:latest
+    ports:
+      - 127.0.0.1:50051:50051
+
+networks: 
+  default: 
+    external: 
+      name: common
