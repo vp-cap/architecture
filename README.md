@@ -1,6 +1,6 @@
-# VP-CAP architecture
+# VP-CAP Architecture
 
-VP CAP (Video Platform with Content based Ad Placement)
+VP-CAP (Video Platform with Content based Ad Placement)
 
 <img src="diagram/vp-cap.png" width=600>
 
@@ -48,10 +48,7 @@ cd <service-folder>
 ```
 
 ## Problems
-- Task allocator uses an in memory queue, if service is down, the queue data is lost, not fault tolerant.
 
-    Possible solutions: Rabbitmq as a broker which handles persistence, failures?
-
-- DB single point of failure, bottleneck as all service would send their requests.
+- DB may become a bottleneck as all service would send their requests.
 
     Possible solutions: increase cluster size of db or multiple/partitioned db

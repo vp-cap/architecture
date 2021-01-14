@@ -1,15 +1,23 @@
 version: '3.7'
 services:
-  task-allocator-service:
-    container_name: task-allocator-service
-    image: task-allocator-service:latest
+  # task-allocator-service:
+  #   container_name: task-allocator-service
+  #   image: task-allocator-service:latest
+  #   ports:
+  #     - 127.0.0.1:50052:50052
+  rabbitmq:
+    container_name: rabbitmq
+    image: 'bitnami/rabbitmq:latest'
+    environment:
+    - RABBITMQ_USERNAME=test
+    - RABBITMQ_PASSWORD=test
     ports:
-      - 127.0.0.1:50052:50052
+      - 5672:5672
   handler-service:
     container_name: handler-service
     image: handler-service:latest
     depends_on:
-      - "task-allocator-service"
+      - "rabbitmq"
     ports:
       - 127.0.0.1:50054:50054
   video-service:
