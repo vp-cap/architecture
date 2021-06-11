@@ -1,3 +1,4 @@
+cd ../../../../
 git clone https://github.com/vp-cap/upload-service
 git clone https://github.com/vp-cap/video-service
 # git clone https://github.com/vp-cap/task-allocator-service

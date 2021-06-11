@@ -12,24 +12,28 @@ services:
     - RABBITMQ_USERNAME=test
     - RABBITMQ_PASSWORD=test
     ports:
-      - 5672:5672
+      - 127.0.0.1:5672:5672
   handler-service:
-    container_name: handler-service
-    image: handler-service:latest
+    # container_name: handler-service
+    deploy:
+      replicas: 2
+    image: vp-cap/handler-service:latest
     depends_on:
-      - "rabbitmq"
-    ports:
-      - 127.0.0.1:50054:50054
+      - rabbitmq
+    # ports:
+      # - 127.0.0.1:50054:50054
   video-service:
     container_name: video-service
-    image: video-service:latest
+    image: vp-cap/video-service:latest
     ports:
       - 127.0.0.1:50053:50053
   upload-service:
     container_name: upload-service
-    image: upload-service:latest
+    image: vp-cap/upload-service:latest
     ports:
       - 127.0.0.1:50051:50051
+    depends_on:
+      - rabbitmq
 
 networks: 
   default: 

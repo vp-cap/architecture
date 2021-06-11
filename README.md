@@ -4,51 +4,32 @@ VP-CAP (Video Platform with Content based Ad Placement)
 
 <img src="diagram/vp-cap.png" width=600>
 
-## Quickstart
-Using docker-compose
-```
-cd scripts/usage
+Refer repositories for the components for details on each:
+- [upload-service](https://github.com/vp-cap/upload-service)
+- [video-service](https://github.com/vp-cap/video-service)
+- [handler-service](https://github.com/vp-cap/handler-service)
+- [frontend](https://github.com/vp-cap/frontend)
+- [data-lib](https://github.com/vp-cap/data-lib)
 
-// create a common network
-docker network create common
+Currently, MongoDB stores 3 tables: for Video, Ad and Video Inference (result after processing by handler). The video itself is stored in IPFS cluster which connects to the [IPFS](https://ipfs.io/) network and thus the client can directly request a video from it (this acts like a CDN).
 
-// ipfs and mongodb
-docker-compose -f data-layer-compose.yaml up -d
+## Result
 
-// start services
-docker-compose -f services-compose.yaml up -d
+Check [Usage.md](USAGE.md) for details on how to run.
 
-// to stop
-docker-compose -f <FILE> down // start services
-```
+<img src="diagram/results/train-example.png" width=600>
+<img src="diagram/results/office-example.png" width=600>
 
-## Dev Setup
-```
-cd scripts/setup
-./clone.sh
-./genproto.sh
-```
 
-Any changes to data lib project will have to be pushed along with a tag which has to be updated in other projects to use.
+## Improvements/Problems
 
-To build and run project individual services using docker:
-
-```
-1. create the common network as shown above
-2. Assuming the data layer compose is up
-
-3.
-// to build image and run, "bo" argument to only build 
-cd <service-folder>
-./start.sh br
-OR
-// to run
-cd <service-folder>
-./start.sh
-```
-
-## Problems
+- For this project, a library which seemed to meet the requirement (detecting objects from video) was used. 
+    Object detection from videos using ML can be improved or creation of complex pipelines to extract other relevant information like from the audio, using context of multiple video frames, etc. 
 
 - DB may become a bottleneck as all service would send their requests.
+    Possible solutions: increase cluster size of db or multiple/partitioned db?
 
-    Possible solutions: increase cluster size of db or multiple/partitioned db
+- Videos submitted for processing can be indefinitely stuck in the current design - if the handler fails abruptly without updating the status
+    Have another service to regularly check if the processing time has crossed a threshold, and resubmit for processing
+
+
