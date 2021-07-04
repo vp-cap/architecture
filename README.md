@@ -1,6 +1,10 @@
-# VP-CAP Architecture
+# VP-CAP Design and Architecture
 
 VP-CAP (Video Platform with Content based Ad Placement)
+
+- When users upload videos, the video processing pipeline get the relevant objects and their positions in the video.
+- Businesses can upload banner ads and choose which object their ads corresponds to the most.
+- When streaming a video, based on the objects in the videos, the ads get matched and are displayed are appropriate positions in the video (where the object was detected and found to be relevant).
 
 <img src="diagram/vp-cap.png" width=600>
 
